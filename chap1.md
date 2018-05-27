@@ -2,6 +2,7 @@
 
 ## 1.1 The Elements of Programming
 
+###
 ```
 (define (square x)
   (* x x))
@@ -68,6 +69,36 @@
 (+ 36 100)
 136
 ```
+
+## 1.2 Procedures and the Processes they Generate
+
+### 1.2.1 Linear Recursion and Iteration
+
+**Recursive process**
+
+_recursive process_ following the substitution model, as the process builds up a chain of _deferred operations_, the interpreter must keep track of the operations to be performed later on.
+
+_linear recusive process_ the process with the length of a chain _deferred operations_ grow linearly. Example:
+
+```
+def sum(n):
+  if n == 0:
+    return 0
+  else:
+    return 1 + sum(n-1)
+```
+
+_iterative recusrive process_ the process that does not grow and shrink as it builds up a chain of _deferred operations_. Example:
+
+```
+def sum(n, result):
+  if n == 0:
+    return result
+  else:
+    return sum(n - 1, result + 1)
+```
+
+_recursive procedure_ translates into having its definition refers to itself
 
 **Exercise 16, 17: evaluation of powers**
 

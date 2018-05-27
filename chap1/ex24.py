@@ -2,7 +2,7 @@
 # Chapter 1 Building Abstractions with Procedures
 # Section 2 - Procedures and the Processes They Generate
 
-# Report runtime for searching for prime numbers with smallest divisior
+# Report runtime for searching for prime numbers with Fermat test
 
 import time
 import math
@@ -14,16 +14,44 @@ def remainder(x, y):
 def square(x):
   return x * x
 
-def smallest_divisor(n):
-  i = 2
-  while (square(i) <= n):
-    if remainder(n, i) == 0:
-      return i
+def halve(x):
+  return math.floor(x / 2)
+
+def expmod(base, exp, m):
+  """Computes the exponential of a number modulo another number
+  (base ^ exp) % m
+  Aka: implementation for function pow(base, exp, m)
+  """
+  if exp == 0:
+    return 1
+  elif exp % 2 == 0:
+    return remainder(square(expmod(base, halve(exp), m)), m)
+  else:
+    return remainder(base * expmod(base, exp - 1, m), m)
+
+def fermat_test(n):
+  """Returns true if n pass Fermat test
+  if n is a prime number, then we can pick a random a such that 0 < a < n, and we have (a^n) % n == a
+  """
+  a = random.randint(0, n)
+  return expmod(a, n, n) == a
+
+def fast_prime(n, times):
+  i = 0
+
+  while (i < times):
+    if not fermat_test(n):
+      break
     i += 1
-  return n
+
+  if i == times:
+    return True
+  else:
+    return False
 
 def is_prime(n):
-  return smallest_divisor(n) == n
+  times = 10
+  return fast_prime(n, 10)
 
 def timed_prime_test(n):
   return start_prime_test(n, time.time())
@@ -50,49 +78,37 @@ def search_for_prime_recursive(from_n, count):
   else:
     search_for_prime_recursive(from_n + 2, count)
 
-def search_for_prime_loop(from_n, count):
-  found_prime_numbers = []
-  from_n = from_n + 1 if from_n % 2 == 0 else from_n
-  while(len(found_prime_numbers) < count):
-    if timed_prime_test(from_n):
-      found_prime_numbers.append(from_n)
-
-    from_n += 2
-
-# search_for_prime_loop(1000, 3)
-# search_for_prime_loop(2000, 3)
-
 search_for_prime_recursive(1000, 3)
 search_for_prime_recursive(10000, 3)
 search_for_prime_recursive(100000, 3)
 search_for_prime_recursive(1000000, 3)
 
 # Result
-
+# Increasing the result search from 10^5 to 10^6 doesn't increase the time
 # ***
-# 1009  6.9E-06
+# 1009  7.6E-05
 # ***
-# 1013  8.1E-06
+# 1013  1.1E-04
 # ***
-# 1019  6.9E-06
+# 1019  1.1E-04
 # ..
 # ***
-# 10007 2.2E-05
+# 10007 1.3E-04
 # ***
-# 10009 4.2E-05
+# 10009 1.1E-04
 # ***
-# 10037 5.1E-05
+# 10037 9.8E-05
 # ..
 # ***
-# 100003  1.6E-04
+# 100003  1.5E-04
 # ***
-# 100019  1.3E-04
+# 100019  2.1E-04
 # ***
-# 100043  1.4E-04
+# 100043  1.9E-04
 # ..
 # ***
-# 1000003 3.9E-04
+# 1000003 2.1E-04
 # ***
-# 1000033 3.3E-04
+# 1000033 1.7E-04
 # ***
-# 1000037 2.7E-04
+# 1000037 1.7E-04

@@ -2,7 +2,7 @@
 # Chapter 1 Building Abstractions with Procedures
 # Section 2 - Procedures and the Processes They Generate
 
-# Report runtime for searching for prime numbers with smallest divisior
+# Report runtime for searching for prime numbers with smallest divisor, searching for only odd numbers
 
 import time
 import math
@@ -14,12 +14,18 @@ def remainder(x, y):
 def square(x):
   return x * x
 
+def next(x):
+  if x == 2:
+    return 3
+  else:
+    return 2
+
 def smallest_divisor(n):
-  i = 2
+  i = 3
   while (square(i) <= n):
     if remainder(n, i) == 0:
       return i
-    i += 1
+    i += next(i)
   return n
 
 def is_prime(n):
@@ -68,31 +74,31 @@ search_for_prime_recursive(100000, 3)
 search_for_prime_recursive(1000000, 3)
 
 # Result
-
+# The new running time with modified smallest_divisor is faster than the one in ex22
 # ***
-# 1009  6.9E-06
+# 1009  5.2E-06
 # ***
-# 1013  8.1E-06
+# 1013  5.0E-06
 # ***
-# 1019  6.9E-06
+# 1019  5.0E-06
 # ..
 # ***
-# 10007 2.2E-05
+# 10007 1.5E-05
 # ***
-# 10009 4.2E-05
+# 10009 1.5E-05
 # ***
-# 10037 5.1E-05
+# 10037 1.4E-05
 # ..
 # ***
-# 100003  1.6E-04
+# 100003  7.5E-05
 # ***
-# 100019  1.3E-04
+# 100019  6.9E-05
 # ***
-# 100043  1.4E-04
+# 100043  6.9E-05
 # ..
 # ***
-# 1000003 3.9E-04
+# 1000003 2.3E-04
 # ***
-# 1000033 3.3E-04
+# 1000033 2.6E-04
 # ***
-# 1000037 2.7E-04
+# 1000037 1.7E-04
