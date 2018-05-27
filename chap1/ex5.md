@@ -1,5 +1,7 @@
 # Structure and Interpretation of Computer Programs
-# Chapter 1 Section 1 Elements of Programming
+# Chapter 1 Building Abstractions with Procedures
+
+# Section 1 - The Elements of Programming
 
 We have the following two procedures:
 
